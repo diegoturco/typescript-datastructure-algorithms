@@ -1,15 +1,18 @@
-import {defaultEquals} from "../util.js";
-import LinkedList from "./linkedList.js";
-import {DoublyNode} from "./models/linkedListModel.js";
+import { defaultEquals, IEqualsFunction } from '../../util';
+import LinkedList from './linkedList';
+import { DoublyNode } from './models/linkedListModel';
 
-export default class DoublyLinkedList extends LinkedList {
-  constructor(equalsFn = defaultEquals) {
+export default class DoublyLinkedList<T> extends LinkedList<T> {
+  protected head: DoublyNode<T> | undefined;
+  protected tail: DoublyNode<T> | undefined;
+
+  constructor(protected equalsFn: IEqualsFunction<T> = defaultEquals) {
     super(equalsFn);
-    this.tail = undefined;
   }
 
-  push(element) {
+  push(element: T) {
     const node = new DoublyNode(element);
+
     if (this.head == null) {
       this.head = node;
       this.tail = node; // NEW
@@ -22,21 +25,24 @@ export default class DoublyLinkedList extends LinkedList {
     this.count++;
   }
 
-  insert(element, index) {
+  insert(element: T, index: number) {
     if (index >= 0 && index <= this.count) {
       const node = new DoublyNode(element);
       let current = this.head;
+
       if (index === 0) {
-        if (this.head == null) { // NEW
+        if (this.head == null) {
+          // NEW
           this.head = node;
-          this.tail = node; // NEW
+          this.tail = node;
         } else {
           node.next = this.head;
           this.head.prev = node; // NEW
           this.head = node;
         }
-      } else if (index === this.count) { // last item NEW
-        current = this.tail;
+      } else if (index === this.count) {
+        // last item // NEW
+        current = this.tail; // {2}
         current.next = node;
         node.prev = current;
         this.tail = node;
@@ -45,6 +51,7 @@ export default class DoublyLinkedList extends LinkedList {
         current = previous.next;
         node.next = current;
         previous.next = node;
+
         current.prev = node; // NEW
         node.prev = previous; // NEW
       }
@@ -54,38 +61,29 @@ export default class DoublyLinkedList extends LinkedList {
     return false;
   }
 
-  // const list = new DoublyLinkedList();
-  // list.push(15);
-  // list.push(10);
-  // list.push(13);
-  // list.push(11);
-  // list.push(12);
-  // console.log(list.toString());
-  // list.removeAt(2);
-  // console.log(list.toString());
-
-  removeAt(index) {
+  removeAt(index: number) {
     if (index >= 0 && index < this.count) {
       let current = this.head;
+
       if (index === 0) {
-        this.head = this.head.next;
+        this.head = this.head.next; // {1}
         // if there is only one item, then we update tail as well //NEW
         if (this.count === 1) {
           // {2}
           this.tail = undefined;
         } else {
-          this.head.prev = undefined;
+          this.head.prev = undefined; // {3}
         }
       } else if (index === this.count - 1) {
         // last item //NEW
-        current = this.tail;
+        current = this.tail; // {4}
         this.tail = current.prev;
         this.tail.next = undefined;
       } else {
         current = this.getElementAt(index);
         const previous = current.prev;
         // link previous with current's next - skip it to remove
-        previous.next = current.next;
+        previous.next = current.next; // {6}
         current.next.prev = previous; // NEW
       }
       this.count--;
@@ -94,9 +92,10 @@ export default class DoublyLinkedList extends LinkedList {
     return undefined;
   }
 
-  indexOf(element) {
+  indexOf(element: T) {
     let current = this.head;
     let index = 0;
+
     while (current != null) {
       if (this.equalsFn(element, current.element)) {
         return index;
@@ -104,6 +103,7 @@ export default class DoublyLinkedList extends LinkedList {
       index++;
       current = current.next;
     }
+
     return -1;
   }
 
@@ -146,12 +146,3 @@ export default class DoublyLinkedList extends LinkedList {
     return objString;
   }
 }
-
-const list = new DoublyLinkedList();
-list.push(15);
-list.push(10);
-list.push(13);
-list.push(11);
-list.push(12);
-list.removeAt(2);
-console.log(list.inverseToString());

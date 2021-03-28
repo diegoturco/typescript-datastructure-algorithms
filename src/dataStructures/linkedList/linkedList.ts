@@ -1,30 +1,32 @@
-import {defaultEquals} from "../util.js";
-import { Node } from './models/linkedListModel.js';
+import { defaultEquals, IEqualsFunction } from '../../util';
+import { Node } from './models/linkedListModel';
 
-export default class LinkedList {
-  constructor(equalsFn = defaultEquals) {
-    this.equalsFn = equalsFn;
-    this.count = 0;
-    this.head = undefined;
-  }
+export default class LinkedList<T> {
+  protected count = 0;
+  protected head: Node<T> | undefined;
 
-  push(element) {
+  constructor(protected equalsFn: IEqualsFunction<T> = defaultEquals) {}
+
+  push(element: T) {
     const node = new Node(element);
     let current;
+
     if (this.head == null) {
       // catches null && undefined
       this.head = node;
     } else {
       current = this.head;
+
       while (current.next != null) {
         current = current.next;
       }
+
       current.next = node;
     }
     this.count++;
   }
 
-  getElementAt(index) {
+  getElementAt(index: number) {
     if (index >= 0 && index <= this.count) {
       let node = this.head;
       for (let i = 0; i < index && node != null; i++) {
@@ -35,9 +37,10 @@ export default class LinkedList {
     return undefined;
   }
 
-  insert(element, index) {
+  insert(element: T, index: number) {
     if (index >= 0 && index <= this.count) {
       const node = new Node(element);
+
       if (index === 0) {
         const current = this.head;
         node.next = current;
@@ -53,9 +56,10 @@ export default class LinkedList {
     return false;
   }
 
-  removeAt(index) {
+  removeAt(index: number) {
     if (index >= 0 && index < this.count) {
       let current = this.head;
+
       if (index === 0) {
         this.head = current.next;
       } else {
@@ -69,19 +73,21 @@ export default class LinkedList {
     return undefined;
   }
 
-  remove(element) {
+  remove(element: T) {
     const index = this.indexOf(element);
     return this.removeAt(index);
   }
 
-  indexOf(element) {
+  indexOf(element: T) {
     let current = this.head;
+
     for (let i = 0; i < this.size() && current != null; i++) {
       if (this.equalsFn(element, current.element)) {
         return i;
       }
       current = current.next;
     }
+
     return -1;
   }
 
@@ -115,12 +121,3 @@ export default class LinkedList {
     return objString;
   }
 }
-
-const list = new LinkedList();
-list.push(15);
-list.push(10);
-list.push(13);
-list.push(11);
-list.push(12);
-console.log(list.toString());
-
