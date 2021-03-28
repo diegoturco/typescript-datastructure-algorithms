@@ -10,3 +10,7 @@ export function defaultCompare(a, b) {
   }
   return a < b ? Compare.LESS_THAN : Compare.BIGGER_THAN;
 }
+
+export function defaultEquals(a, b) {
+  return a === b;
+}
