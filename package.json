@@ -1,8 +1,8 @@
 {
-  "name": "javascript-datastructures-algorithms",
+  "name": "typescript-datastructures-algorithms",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:diegoturco/javascript-datastructures-algorithms.git",
+  "repository": "git@github.com:diegoturco/typescript-datastructures-algorithms.git",
   "author": "Diego Turco",
   "license": "MIT",
   "scripts": {
