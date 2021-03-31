@@ -1,5 +1,5 @@
 import { defaultEquals, IEqualsFunction } from '../../util';
-import { Node } from './models/linkedListModel';
+import { Node } from '../models/linkedListModel';
 
 export default class LinkedList<T> {
   protected count = 0;
