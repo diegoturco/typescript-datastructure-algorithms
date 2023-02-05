@@ -1,9 +1,8 @@
 const binarySearchBasic = (array: number[], target: number): number => {
   let left = 0;
   let right = array.length - 1;
-  let middlePosition = left + right / 2;
-  middlePosition = Math.round(middlePosition);
-
+  let middlePosition = Math.floor(left + right / 2);
+  
   while (array.length > middlePosition) {
     const middleElement = array[middlePosition];
 
@@ -19,7 +18,7 @@ const binarySearchBasic = (array: number[], target: number): number => {
 
     if (left > right) return -1;
 
-    middlePosition = left + right / 2;
+    middlePosition = Math.floor(left + right / 2);    
   }
 
   return -1;
