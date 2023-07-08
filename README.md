@@ -7,7 +7,7 @@ This project has a goal to explore `Sorting`, `Fibonacci`, `Linked List` and `Bi
 First, run the development server:
 
 ```bash
-yarn start
+npm start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
